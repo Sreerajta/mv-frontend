@@ -5,6 +5,10 @@ import { authenticationService } from '../services';
 import { MovieBody } from '../components/movieList.js'
 import './home.css';
 
+
+import { authHeader, handleResponse } from '../helpers';
+
+
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -19,21 +23,54 @@ class HomePage extends React.Component {
 
         this.handleRefresh = this.handleRefresh.bind(this)
         this.getMovie = this.getMovie.bind(this)
+        this.getMovieFake = this.getMovieFake.bind(this)
     }
 
     componentDidMount() {
         // userService.getAll().then(users => this.setState({ users }));
-        this.getMovie()
+        // this.getMovie()
+        this.getMovieFake()
     }
 
 
   handleRefresh() {
     return new Promise((resolve) => {
       console.log('handle refresh')
-      this.getMovie(true)
+      // this.getMovie(true)
     });
   }
 
+
+    getMovieFake(){
+      const requestOptions = { method: 'GET', headers: authHeader() };
+      return fetch(`localhost:8000/getMovies`, requestOptions).then(response => {
+      if(response.ok){
+        return response.text().then(text => {
+          const data = text && JSON.parse(text);
+          return data
+        })
+      }
+      
+      throw new Error('Request failed.');
+      }).then(data=>{
+        console.log(data);
+        const movies_list = data
+        this.setState({
+          
+          movies:[
+            ...this.state.movies,
+            ...movies_list
+          
+          ],
+          has_more:data.false,
+          paging_state:''
+
+        });
+      }).catch(error => {
+        console.log(error);
+      });;
+    }
+    
     getMovie(is_refresh=false) {
          console.log('====',this.state.currentUser['access_token'])
         const reqHeaders = new Headers();
@@ -43,7 +80,7 @@ class HomePage extends React.Component {
         let req_url = 'http://localhost:8000/getMovies'
         
         if(this.state.paging_state && this.state.paging_state.length > 0){
-          req_url = 'http://localhost:8000/getMovies?paging_state='+ this.state.paging_state
+          req_url = 'http://localhost:8000/getMovies'
         }
         else if(is_refresh){
           return
@@ -54,12 +91,13 @@ class HomePage extends React.Component {
           headers: reqHeaders,
       })  
         .then(response => {
-          if(response.ok) return response.json();
-          throw new Error('Request failed.');
+          // if(response.ok) 
+          return response
+          // throw new Error('Request failed.');
         })
         .then(data => {
           console.log(data);
-          const movies_list = data['movies']
+          const movies_list = data
           this.setState({
             
             movies:[

@@ -14,26 +14,46 @@ export const authenticationService = {
     }
 };
 
-function login(username, password) {
-    let formData = new FormData()
-    formData.append(username,username)
-    formData.append(password,password)
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'username=' + username + '&password=' + password,
-    };
+// function login(username, password) {
+//     let formData = new FormData()
+//     formData.append(username,username)
+//     formData.append(password,password)
+//     const requestOptions = {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//         body: 'username=' + username + '&password=' + password,
+//     };
     
+    function login(username, password) {
+        let formData = new FormData()
+        formData.append(username,username)
+        formData.append(password,password)
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        };
 
-    return fetch(`http://localhost:8000/login`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
+    // return fetch(`http://localhost:8000/login`, requestOptions)
+    //     .then(handleResponse)
+    //     .then(user => {
+    //         // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //         localStorage.setItem('currentUser', JSON.stringify(user));
+    //         currentUserSubject.next(user);
 
-            return user;
-        });
+    //         return user;
+    //     });
+    console.log("login function")
+    return fetch(`localhost:800/login`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+        console.log(user)
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        currentUserSubject.next(user);
+
+        return user;
+    });
+
 }
 
 function logout() {

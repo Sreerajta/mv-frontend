@@ -10,9 +10,9 @@ class LoginPage extends React.Component {
         super(props);
 
         // redirect to home if already logged in
-        // if (authenticationService.currentUserValue) { 
-        //     this.props.history.push('/');
-        // }
+        if (authenticationService.currentUserValue) { 
+            this.props.history.push('/');
+        }
     }
 
     render() {
@@ -29,19 +29,19 @@ class LoginPage extends React.Component {
                         password: Yup.string().required('Password is required')
                     })}
                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-                        // console.log('submit worked',username,password)
-                        // setStatus();
-                        // authenticationService.login(username, password)
-                        //     .then(
-                        //         user => {
-                        //             const { from } = this.props.location.state || { from: { pathname: "/" } };
-                        //             this.props.history.push(from);
-                        //         },
-                        //         error => {
-                        //             setSubmitting(false);
-                        //             setStatus(error);
-                        //         }
-                        //     );
+                        console.log('submit worked',username,password)
+                        setStatus();
+                        authenticationService.login(username, password)
+                            .then(
+                                user => {
+                                    const { from } = this.props.location.state || { from: { pathname: "/" } };
+                                    this.props.history.push(from);
+                                },
+                                error => {
+                                    setSubmitting(false);
+                                    setStatus(error);
+                                }
+                            );
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
                         <Form className='login-form'>
