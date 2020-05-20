@@ -1,0 +1,70 @@
+.login-wrapper{
+    height:1920px;
+    padding-top: 10rem;
+}
+.login-container{
+    padding-top: 10rem;
+    margin-left: 38rem;
+    height: 18rem;
+    width:30rem;
+    background-color: #ffffff;
+    border-radius: 0.2rem;
+}
+
+
+.user-label{
+    color:grey;
+    font-family: Roboto, Helvetica;
+
+}
+.pass-label{
+    color:grey;
+    font-family: Roboto, Helvetica;
+
+}
+
+/* .form-group{
+    margin-left: 10px;
+} */
+
+.login-form{
+    margin-left: 4rem;
+}
+
+.btn{
+    margin-left:20px;
+    margin-top: 1rem;
+    background-color: #000000;
+    color:#ffffff;
+    width:300px;
+    height:50px;
+    font-family: Roboto, Helvetica;
+}
+.invalid-feedback{
+    color:red;
+    font-size:10px;
+    margin-left: 50px;;
+}
+
+  
+.username{
+
+}
+.password{
+    margin-top: 10px;
+}
+
+.form-control-pass{
+    border-top:0px;
+    border-left:0px;
+    border-right:0px;
+    margin-left: 5px;
+    border-color: #000000;
+}
+.form-control-username{
+    border-top:0px;
+    border-top:0px;
+    border-left:0px;
+    border-right:0px;
+    border-color: #000000;
+}

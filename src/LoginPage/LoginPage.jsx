@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import './login.css'
 import { authenticationService } from '../services';
 
 class LoginPage extends React.Component {
@@ -16,8 +17,8 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Login</h2>
+            <div className='login-wrapper'>
+                <div className='login-container'>
                 <Formik
                     initialValues={{
                         username: '',
@@ -43,15 +44,15 @@ class LoginPage extends React.Component {
                             );
                     }}
                     render={({ errors, status, touched, isSubmitting }) => (
-                        <Form>
-                            <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
+                        <Form className='login-form'>
+                            <div className="form-group username">
+                                <label htmlFor="username" className='user-label'>Username</label>
+                                <Field name="username" type="text" className={'form-control-username' + (errors.username && touched.username ? ' is-invalid' : '')} />
                                 <ErrorMessage name="username" component="div" className="invalid-feedback" />
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                            <div className="form-group password">
+                                <label htmlFor="password" className='pass-label'>Password</label>
+                                <Field name="password" type="password" className={'form-control-pass' + (errors.password && touched.password ? ' is-invalid' : '')} />
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
@@ -66,6 +67,7 @@ class LoginPage extends React.Component {
                         </Form>
                     )}
                 />
+                </div>
             </div>
         )
     }
