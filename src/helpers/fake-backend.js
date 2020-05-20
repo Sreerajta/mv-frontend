@@ -5,9 +5,9 @@ export function configureFakeBackend() {
     {title:"Inception",rating:"OVERRATED",plot:"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",poster:"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg"},
     {title:"Hereditary",rating:"7.3",plot:"A grieving family is haunted by tragic and disturbing occurrences.",poster:"https://m.media-amazon.com/images/M/MV5BOTU5MDg3OGItZWQ1Ny00ZGVmLTg2YTUtMzBkYzQ1YWIwZjlhXkEyXkFqcGdeQXVyNTAzMTY4MDA@._V1_SX300.jpg"},
     {title:"Rick and Morty",rating:"9.2",plot:"An animated series that follows the exploits of a super scientist and his not-so-bright grandson.",poster:"https://m.media-amazon.com/images/M/MV5BMjRiNDRhNGUtMzRkZi00MThlLTg0ZDMtNjc5YzFjYmFjMmM4XkEyXkFqcGdeQXVyNzQ1ODk3MTQ@._V1_SX300.jpg"},
-    {title:"Inception",rating:"",plot:"",poster:""},
-    {title:"Inception",rating:"",plot:"",poster:""},
-    {title:"Inception",rating:"",plot:"",poster:""}];
+    {title:"Stories by Rabindranath Tagore",rating:"9.0",plot:"Adaptation of Nobel laureate Rabindranath Tagore's stories by acclaimed Indian director Anurag Basu",poster:"https://m.media-amazon.com/images/M/MV5BZWU3OTgzNmItOGI0Mi00ZWZmLTgyZDctNzQxZWVhNzk5YjQ1XkEyXkFqcGdeQXVyNTM2MTEyNDc@._V1_SX300.jpg"},
+    {title:"The Simpsons",rating:"8.7",plot:"The satiric adventures of a working-class family in the misfit city of Springfield.",poster:"https://m.media-amazon.com/images/M/MV5BYjFkMTlkYWUtZWFhNy00M2FmLThiOTYtYTRiYjVlZWYxNmJkXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"},
+    {title:"Panchayat",rating:"9.1",plot:"Panchayat is a comedy-drama, which captures the journey of an engineering graduate Abhishek, who for lack of a better job option joins as secretary of a Panchayat office in a remote village of Uttar Pradesh.",poster:"https://m.media-amazon.com/images/M/MV5BMTllYzQ0MzctZTI4Ny00YTE2LTkzYjktMTc4ZWE2MDUxNzk2XkEyXkFqcGdeQXVyNzEyNTM4MTU@._V1_SX300.jpg"}];
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
         
