@@ -45,7 +45,7 @@ const MovieRating = (props)=>{
 
 const MovieBody = (props) => {
     return(
-      <MovieContainer>
+      <MovieContainer className ='movie-container'>
         <div className="inner-body">
           <MoviePoster poster={props.poster}/>
           <div className="body">

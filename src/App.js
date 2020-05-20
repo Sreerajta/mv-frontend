@@ -1,86 +1,59 @@
-import React, { Component } from 'react';
-import { MovieBody } from './components/movieList.js'
-import InfiniteScroll from 'react-infinite-scroller';
-// import {BrowserRouter} from 'react-router-dom';
-import './App.css';
+import React from 'react';
+import { Router, Route, Link } from 'react-router-dom';
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state={
-      movies:
-      [ 
-      ]
+import { history } from './helpers';
+import { authenticationService } from './services';
+import { PrivateRoute } from './components';
+import { HomePage } from './HomePage';
+import { LoginPage } from './LoginPage';
+import './App.css'
+
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentUser: null
+        };
     }
-    this.handleRefresh = this.handleRefresh.bind(this)
-    this.getMovie = this.getMovie.bind(this)
-  }
 
-  handleRefresh() {
-    return new Promise((resolve) => {
-      this.getMovie()
-    });
-  }
+    componentDidMount() {
+        authenticationService.currentUser.subscribe(x => this.setState({ currentUser: x }));
+    }
 
-  componentDidMount() {
-    this.getMovie()
-  }
+    logout() {
+        authenticationService.logout();
+        history.push('/login');
+    }
 
-  getMovie() {
-    fetch('https://randomuser.me/api/')   //dummy placeholder data for now
-    .then(response => {
-      if(response.ok) return response.json();
-      throw new Error('Request failed.');
-    })
-    .then(data => {
-      console.log(data);
-      this.setState({
-        
-        movies:[
-          ...this.state.movies,
-          {
-            title: data.results[0].name,
-            poster: data.results[0].picture.medium,
-            description: data.results[0].email,
-          },
-        
-        ]
-      });
-      
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
-
-  render() {
-    return (
-      <InfiniteScroll
-      pageStart={0} 
-      loadMore={this.handleRefresh}
-      hasMore={true}  // edit with has_more response from api
-      loader={<div className="loader" key={0}>Loading ...</div>}>
-
-      <div className="main-body">
-        {[...this.state.movies].map((movie, index) => {
-          let title = `${movie.title.first} ${movie.title.last}`
-          let  rating= `0.0`
-          let poster = movie.poster
-          let description = movie.description
-          return(
-            <MovieBody 
-              key={index}
-              title={title}
-              rating={rating}
-              description={description}
-              poster={poster} />
-          )
-        })}      
-      </div>
-
-      </InfiniteScroll>
-    );
-  }
+    render() {
+        const { currentUser } = this.state;
+        return (
+            <Router history={history}>
+                <div className="app-container">
+                    {currentUser &&
+                        <nav className="navbar navbar-expand navbar-dark bg-dark">
+                            <div className="navbar-nav">
+                               <div className="home-link"><Link to="/" className="nav-item nav-link nav-home ">Home</Link></div> 
+                                <a onClick={this.logout} className="nav-item nav-link nav-logout">Logout</a>
+                            </div>
+                        </nav>
+                    }
+                    <div className="jumbotron">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-6 offset-md-3">
+                                    <PrivateRoute exact path="/" component={HomePage} />
+                                    <Route path="/login" component={LoginPage} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Router>
+        );
+    }
 }
 
-export default App;
+export { App };
