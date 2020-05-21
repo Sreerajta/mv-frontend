@@ -8,34 +8,34 @@ export const authenticationService = {
     login,
     logout,
     currentUser: currentUserSubject.asObservable(),
-    get currentUserValue () {
-        return currentUserSubject.value 
+    get currentUserValue() {
+        return currentUserSubject.value
 
     }
 };
 
 function login(username, password) {
     let formData = new FormData()
-    formData.append(username,username)
-    formData.append(password,password)
+    formData.append(username, username)
+    formData.append(password, password)
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
         body: 'username=' + username + '&password=' + password,
     };
     
+return fetch(`http://localhost:8000/login`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        currentUserSubject.next(user);
 
-    return fetch(`http://localhost:8000/login`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
-
-            return user;
-        });
+        return user;
+    });
 }
-
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');

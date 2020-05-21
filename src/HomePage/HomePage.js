@@ -7,76 +7,73 @@ import './home.css';
 
 class HomePage extends React.Component {
     constructor(props) {
-        super(props);
+      super(props);
 
-        this.state = {
-            currentUser: authenticationService.currentUserValue,
-            users: null,
-            movies: [],
-            has_more: true,
-            paging_state:null
-        };
+      this.state = {
+        currentUser: authenticationService.currentUserValue,
+        users: null,
+        movies: [],
+        has_more: true,
+        paging_state: null
+      };
 
-        this.handleRefresh = this.handleRefresh.bind(this)
-        this.getMovie = this.getMovie.bind(this)
+      this.handleRefresh = this.handleRefresh.bind(this)
+      this.getMovie = this.getMovie.bind(this)
     }
 
     componentDidMount() {
-        // userService.getAll().then(users => this.setState({ users }));
-        this.getMovie()
+      this.getMovie()
     }
 
 
-  handleRefresh() {
-    return new Promise((resolve) => {
-      console.log('handle refresh')
-      this.getMovie(true)
-    });
-  }
+    handleRefresh() {
+      return new Promise((resolve) => {
+        console.log('handle refresh')
+        this.getMovie(true)
+      });
+    }
 
-    getMovie(is_refresh=false) {
-         console.log('====',this.state.currentUser['access_token'])
-        const reqHeaders = new Headers();
-        reqHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-        reqHeaders.append('Authorization', 'Bearer '+this.state.currentUser['access_token']);
-        
-        let req_url = 'http://localhost:8000/getMovies'
-        
-        if(this.state.paging_state && this.state.paging_state.length > 0){
-          req_url = 'http://localhost:8000/getMovies?paging_state='+ this.state.paging_state
-        }
-        else if(is_refresh){
-          return
-        }
+    getMovie(is_refresh = false) {
+      const reqHeaders = new Headers();
+      reqHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+      reqHeaders.append('Authorization', 'Bearer ' + this.state.currentUser['access_token']);
 
-        fetch(req_url,{
+      let req_url = 'http://localhost:8000/getMovies'
+
+      if (this.state.paging_state && this.state.paging_state.length > 0) {
+        req_url = 'http://localhost:8000/getMovies?paging_state=' + this.state.paging_state
+      } else if (is_refresh) {
+        return
+      }
+
+      fetch(req_url, {
           method: 'GET',
           headers: reqHeaders,
-      })  
+        })
         .then(response => {
-          if(response.ok) return response.json();
+          if (response.ok) return response.json();
           throw new Error('Request failed.');
         })
         .then(data => {
           console.log(data);
           const movies_list = data['movies']
           this.setState({
-            
-            movies:[
+
+            movies: [
               ...this.state.movies,
               ...movies_list
-            
+
             ],
-            has_more:data.has_more_pages,
-            paging_state:data.paging_state
+            has_more: data.has_more_pages,
+            paging_state: data.paging_state
 
           });
-          
+
         })
         .catch(error => {
           console.log(error);
         });
-      }
+    }
 
     render() {
         const { currentUser, users } = this.state;
@@ -88,6 +85,7 @@ class HomePage extends React.Component {
                              loader={<div className="loader" key={0}>Loading ...</div>}>
 
             <div className="main-body">
+
             {[...this.state.movies].map((movie, index) => {
               let title = `${movie.title}`
               let  rating= `${movie.rating}`
@@ -101,12 +99,11 @@ class HomePage extends React.Component {
                   description={description}
                   poster={poster} />
               )
-            })}      
+            })}
+                  
             </div>
 
-            </InfiniteScroll>          
-                     
-            
+            </InfiniteScroll>       
             </div>
 
 
