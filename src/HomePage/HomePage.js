@@ -41,7 +41,7 @@ class HomePage extends React.Component {
       let req_url = 'http://localhost:8000/getMovies'
 
       if (this.state.paging_state && this.state.paging_state.length > 0) {
-        req_url = 'http://localhost:8000/getMovies?paging_state=' + this.state.paging_state
+        req_url = 'http://localhost:8000/getMovies?paging_state=' + encodeURIComponent(this.state.paging_state)
       } else if (is_refresh) {
         return
       }
