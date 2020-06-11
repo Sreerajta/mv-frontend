@@ -33,6 +33,8 @@ class HomePage extends React.Component {
       });
     }
 
+    
+
     getMovie(is_refresh = false) {
       const reqHeaders = new Headers();
       reqHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -55,8 +57,7 @@ class HomePage extends React.Component {
           throw new Error('Request failed.');
         })
         .then(data => {
-          console.log(data);
-          const movies_list = data['movies']
+          const movies_list = data['movies'].sort(this.compare_votes)
           this.setState({
 
             movies: [
@@ -75,6 +76,16 @@ class HomePage extends React.Component {
         });
     }
 
+  compare_votes( a, b ) {
+      if ( a.votes > b.votes ){
+        return -1;
+      }
+      if ( a.votes < b.votes ){
+        return 1;
+      }
+      return 0;
+    }
+
     render() {
         const { currentUser, users } = this.state;
         return (
@@ -88,14 +99,16 @@ class HomePage extends React.Component {
 
             {[...this.state.movies].map((movie, index) => {
               let title = `${movie.title}`
-              let  rating= `${movie.rating}`
+              let  votes= `${movie.votes}`
               let poster = movie.poster
               let description = movie.plot
+              let id = movie.id
               return(
                 <MovieBody  className="movie-body"
                   key={index}
+                  id ={id}
                   title={title}
-                  rating={rating}
+                  votes={votes}
                   description={description}
                   poster={poster} />
               )

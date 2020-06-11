@@ -1,5 +1,20 @@
 import React from 'react';
 
+// import {LikeButton} from LikeButton
+import {LikeButton} from './LikeButton'
+
+
+// const LikeButton = (props)=>{
+//   return (
+//     <div>
+//           <button className="button">
+//             <i className="far fa-heart fa-lg" style={{ color: "#33c3f0" }}></i>
+//           </button>
+//     </div>
+
+//   )
+// }
+
 const MovieContainer = (props)=>{
   return(
   <div className ='movie-container' >
@@ -39,7 +54,7 @@ const MovieTitle = (props)=>{
 const MovieRating = (props)=>{
   return(
   <div className ='movie-rating' >
-    {props.rating}
+    {props.rating} Likes
   </div>)
 }
 
@@ -51,9 +66,14 @@ const MovieBody = (props) => {
           <div className="body">
             <div className="inner-body">
               <MovieTitle title={props.title}/>
-              <MovieRating rating={props.rating}/>
+              <MovieRating rating={props.votes}/>
+             
+              
             </div>
+            <div className="inner-body">
             <MovieDescription description={props.description}/>
+            <LikeButton></LikeButton>
+            </div>
           </div>
         </div>
       </MovieContainer>
