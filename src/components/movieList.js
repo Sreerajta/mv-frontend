@@ -72,7 +72,7 @@ const MovieBody = (props) => {
             </div>
             <div className="inner-body">
             <MovieDescription description={props.description}/>
-            <LikeButton></LikeButton>
+            <LikeButton key={'like-button'+props.id} id={props.id} user_voted={props.user_voted} updateVote={props.updateVote}></LikeButton>
             </div>
           </div>
         </div>
