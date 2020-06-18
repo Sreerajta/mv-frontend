@@ -15,16 +15,19 @@ class HomePage extends React.Component {
         movies: {},
         votes:{},
         has_more: true,
-        paging_state: 1
+        paging_state: 0,
+        user_genres:authenticationService.currentUserValue.genre_combo
       };
 
       this.handleRefresh = this.handleRefresh.bind(this)
       this.getMovie = this.getMovie.bind(this)
       this.updateVote = this.updateVote.bind(this)
+      this.getGenres = this.getGenres.bind(this)
       // this.sendUpvoteJob = this.sendUpvoteJob.bind(this)
     }
 
     componentDidMount() {
+      // this.getGenres()
       this.getMovie()
     }
 
@@ -47,6 +50,11 @@ class HomePage extends React.Component {
     // ,()=>{console.log(this.state.votes)})
     
     // }
+
+
+    getGenres(){
+      console.log(this.state.currentUser.genre_combo)
+    }
     //SET STATE AFTER UPDATE JOB
     updateVote(id){
       const reqHeaders = new Headers();
@@ -87,7 +95,7 @@ class HomePage extends React.Component {
       reqHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
       reqHeaders.append('Authorization', 'Bearer ' + this.state.currentUser['access_token']);
 
-      let req_url = 'http://localhost:8000/getMovies?paging_state=1'
+      let req_url = 'http://localhost:8000/test?paging_state=0&genre_filter='+this.state.user_genres
 
       // if (this.state.paging_state && this.state.paging_state.length > 0) {
       //   req_url = 'http://localhost:8000/getMovies?paging_state=' + encodeURIComponent(this.state.paging_state)
@@ -96,7 +104,7 @@ class HomePage extends React.Component {
       // }
 
       if (is_refresh) {
-        req_url = 'http://localhost:8000/getMovies?paging_state=' + this.state.paging_state
+        req_url = 'http://localhost:8000/test?paging_state=' + this.state.paging_state +'&genre_filter='+this.state.user_genres
       } else if (is_refresh) {
         return
       }
